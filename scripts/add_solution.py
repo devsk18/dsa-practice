@@ -28,7 +28,7 @@ def get_filepath(lc_no: str, problem_name: str) -> str:
     """Get the filepath for the solution file."""
     repo_root = get_repo_root()
     slug = slugify(problem_name)
-    filename = f"{lc_no}-{slug}.py"
+    filename = f"{slug}-{lc_no}.py"
     return os.path.join(repo_root, "leetcode", filename)
 
 
