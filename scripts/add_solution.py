@@ -45,6 +45,14 @@ def create_solution_file(lc_no: str, problem_name: str) -> str:
         pass
 
     print(f"\nCreated clean file: {filepath}")
+    
+    # Open file in gnome-text-editor
+    try:
+        subprocess.Popen(["gnome-text-editor", filepath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        print(f"Opened in gnome-text-editor")
+    except Exception as e:
+        print(f"Could not open file: {e}")
+    
     return filepath
 
 
@@ -62,9 +70,9 @@ def add_and_commit(lc_no: str, problem_name: str) -> None:
     print(f"\nProposed commit message: \"{commit_msg}\"")
     print(f"File to add: {filepath}")
     
-    approval = input("\nApprove commit? (y/n): ").strip().lower()
+    approval = input("\nApprove commit? (Y/n): ").strip().lower()
     
-    if approval == 'y':
+    if approval in ('y', ''):
         try:
             subprocess.run(["git", "add", filepath], check=True)
             subprocess.run(["git", "commit", "-m", commit_msg], check=True)
