@@ -26,7 +26,7 @@ class Solution:
 
     
 # TC : O(N) 
-# SC : O(N)
+# SC : O(1)
 
 # Suggested: Linked List/Two Pointers
 # Key Idea: Merging two sorted linked lists using a dummy head and two-pointer traversal.
