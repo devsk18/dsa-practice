@@ -96,6 +96,32 @@ def git_push() -> None:
         print(f"Git push failed: {e}")
 
 
+def commit_and_push(lc_no: str, problem_name: str) -> None:
+    """Add, commit, and push changes in one step."""
+    filepath = get_filepath(lc_no, problem_name)
+    
+    if not os.path.exists(filepath):
+        print(f"\nError: File does not exist: {filepath}")
+        print("Please create the file first (option 1).")
+        return
+
+    commit_msg = f"LC-{lc_no}: solved ({problem_name})"
+    
+    print(f"\nCommitting and pushing: \"{commit_msg}\"")
+    print(f"File: {filepath}")
+    
+    try:
+        subprocess.run(["git", "add", filepath], check=True)
+        subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+        print(f"\nCommitted successfully!")
+        git_push()
+        print("\nDone. Exiting...")
+        sys.exit(0)
+    except subprocess.CalledProcessError as e:
+        print(f"\nGit command failed: {e}")
+        sys.exit(1)
+
+
 def show_menu(lc_no: str, problem_name: str) -> None:
     """Display interactive menu and handle user choices."""
     filepath = get_filepath(lc_no, problem_name)
@@ -109,9 +135,10 @@ def show_menu(lc_no: str, problem_name: str) -> None:
         print("1. Create solution file (clean/empty)")
         print("2. Add and commit changes")
         print("3. Push to remote")
-        print("4. Exit")
+        print("4. Commit and push (combined)")
+        print("5. Exit")
         
-        choice = input("\nSelect option (1-4): ").strip()
+        choice = input("\nSelect option (1-5): ").strip()
         
         if choice == '1':
             create_solution_file(lc_no, problem_name)
@@ -120,10 +147,12 @@ def show_menu(lc_no: str, problem_name: str) -> None:
         elif choice == '3':
             git_push()
         elif choice == '4':
+            commit_and_push(lc_no, problem_name)
+        elif choice == '5':
             print("\nExiting...")
             break
         else:
-            print("\nInvalid option. Please select 1-4.")
+            print("\nInvalid option. Please select 1-5.")
 
 
 def main():
@@ -143,6 +172,9 @@ def main():
     if not os.path.isdir("leetcode"):
         print("Error: 'leetcode' directory not found in repo root")
         sys.exit(1)
+
+    # Auto-create solution file and open editor
+    create_solution_file(lc_no, problem_name)
 
     # Start interactive menu
     show_menu(lc_no, problem_name)
