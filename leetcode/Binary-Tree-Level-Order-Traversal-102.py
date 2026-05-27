@@ -8,7 +8,7 @@ from collections import deque
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if root is None:
-            return None
+            return []
         
         queue = deque()
         queue.append(root)
@@ -30,3 +30,6 @@ class Solution:
  
 # TC: O(N)
 # SC: O(N)
+
+# suggested: Breadth-First Search/Queue
+# Key Idea: Using BFS with a queue to traverse binary trees level by level.
