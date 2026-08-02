@@ -1,24 +1,25 @@
 class Solution:
     def mergeAlternately(self, word1: str, word2: str) -> str:
-        n = len(word1)
-        m = len(word2)
-        r = n if n <= m else m
+        m = len(word1)
+        n = len(word2)
+
         res = []
+        i = j = 0
 
-        for i in range(r):
-            res.append(word1[i] + word2[i])
+        while i<m and j<n:
+            res.append(word1[i])
+            res.append(word2[j])
+            i += 1
+            j += 1
         
-        if r < n:
-            res.append(word1[i+1:])
-        else:
-            res.append(word2[i+1:])
-        
-        return ''.join(res)
+        res.append(word1[i:])
+        res.append(word2[j:])
+
+        return "".join(res)
 
 
-# TC = O(N + M)
-# SC = O(N + M)
+# TC : O(m + n)
+# SC : O(m + n)
 
-#Suggested: Two Pointers/Simulation
+# Suggested: Two Pointers/Simulation
 # Key Idea: Iterate through two strings simultaneously to merge characters alternately, then append remaining suffix.
-
